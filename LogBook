@@ -1,0 +1,25 @@
+
+ ```shell
+kubectl get all
+curl -sLX GET https://docs.konghq.com/mesh/installer.sh | VERSION=2.2.0 sh -
+kumactl install control-plane \
+    --license-path=/etc/kong/license.json \
+    | kubectl apply -f -
+kubectl get pods -n kong-mesh-system
+kubectl expose deployment kong-mesh-control-plane \
+    -n kong-mesh-system \
+    --type=NodePort \
+    --name=kongmesh-cp \
+    --port 5681
+kubectl patch service kongmesh-cp \
+    --namespace=kong-mesh-system  \
+    --type='json' \
+    --patch='[{"op": "replace", "path": "/spec/ports/0/nodePort", "value":30001}]'
+kumactl config control-planes add \
+    --name=kongmesh-cp \
+    --address=$KONG_MESH_URI
+curl -sX GET $KONG_MESH_URI | jq
+kumactl inspect dataplanes
+kumactl inspect dataplanes -o yaml
+
+```
