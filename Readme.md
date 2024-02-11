@@ -13,7 +13,6 @@ bash <(curl -sS https://get.konghq.com/install) -v
 
 1. Use the default Data Plane Nodes
 2. Add a Gateway Service (at the bottom)
-3. 
 
 ## Resources:
 
