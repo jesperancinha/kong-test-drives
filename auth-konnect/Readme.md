@@ -11,3 +11,4 @@ A project to study KONNECT possibilities
 ## Resources
 
 - [7 Free Public APIs you will love as a developer💖](https://dev.to/ruppysuppy/7-free-public-apis-you-will-love-as-a-developer-166p)
+- [The Star Wars API](https://swapi.dev/)
