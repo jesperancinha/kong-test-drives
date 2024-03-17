@@ -59,11 +59,29 @@ token=$(microk8s kubectl -n kube-system get secret | grep default-token | cut -d
 microk8s kubectl -n kube-system describe secret $token
 ```
 
-## Install control plane
+## Install control plane SSH and certificates
 
- ```shell
+
+#### Create a configuration
+
+```shell
+kubectl config set-cluster my-cluster --server=https://your-cluster-api-server-address --certificate-authority=/path/to/ca.crt
+kubectl config set-credentials my-user --client-certificate=/path/to/client.crt --client-key=/path/to/client.key
+kubectl config set-context my-context --cluster=my-cluster --user=my-user
+kubectl config use-context my-context
+```
+
+#### Create the control-plane
+
+```shell
+kubectl config set-cluster my-cluster --server=http://<IP> --kubeconfig $HOME/.kube/config
 kumactl install control-plane \
   --set "controlPlane.mode=zone" \
   | kubectl apply -f -
 ```
 
+#### Your startup file .bashrc/.zsh
+
+```shell
+export KUBECONFIG=~/.kube/config
+```
