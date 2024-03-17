@@ -21,13 +21,6 @@ cd ~
 ```shell
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 ```
-## Install control plane
-
- ```shell
-kumactl install control-plane \
-  --set "controlPlane.mode=zone" \
-  | kubectl apply -f -
-```
 
 ## How to install microk8s
 
@@ -56,4 +49,14 @@ sudo chown -R jesperancinha ~/.kube
 microk8s add-node
 microk8s join <NODEID>
 microk8s kubectl get no
+microk8s stop
 ```
+
+## Install control plane
+
+ ```shell
+kumactl install control-plane \
+  --set "controlPlane.mode=zone" \
+  | kubectl apply -f -
+```
+
