@@ -61,12 +61,30 @@ microk8s kubectl -n kube-system describe secret $token
 
 ## Install control plane SSH and certificates
 
+#### Create certificate and key
+
+```shell
+openssl genrsa -out ca.key 2048
+openssl req -new -key ca.key -x509 -days 365 -out ca.crt
+openssl genrsa -out client.key 2048
+openssl req -new -key client.key -out client.csr -subj "/CN=kubectl"
+openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out client.crt -days 365
+cat client.crt client.key > client.pem
+```
+
+```yaml
+users:
+- name: kubectl
+  user:
+    client-certificate: /path/to/client.crt
+    client-key: /path/to/client.key
+```
 
 #### Create a configuration
 
 ```shell
-kubectl config set-cluster my-cluster --server=https://your-cluster-api-server-address --certificate-authority=/path/to/ca.crt
-kubectl config set-credentials my-user --client-certificate=/path/to/client.crt --client-key=/path/to/client.key
+kubectl config set-cluster my-cluster --server=https://your-cluster-api-server-address --certificate-authority=ca.crt
+kubectl config set-credentials my-user --client-certificate=/path/to/client.crt --client-key=client.key
 kubectl config set-context my-context --cluster=my-cluster --user=my-user
 kubectl config use-context my-context
 ```
