@@ -6,3 +6,6 @@ client.crt
 client.csr
 client.key
 client.pem
+tls.crt
+tls.csr
+tls.key
