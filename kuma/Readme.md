@@ -1,54 +1,18 @@
 # Kuma - Kong Test Drives - jesperancinha
 
-## How to install Kumactl
+## Introduction
 
--  [Official Kumactl Installation Manual](https://kuma.io/docs/2.6.x/production/install-kumactl/)
+To run the examples in this folder you can install these 3 commands (see the [Installation](./Installation.md) file) :
 
-```shell
-curl -L https://kuma.io/installer.sh | VERSION=2.6.1 sh -
-```
+1. kubectl - [Documentation](https://kubernetes.io/docs/tasks/tools/#kubectl)
+2. kumactl - [Documentation](https://docs.konghq.com/mesh/latest/production/install-kumactl/)
+3. kind - [Documentation](https://kind.sigs.k8s.io/docs/user/quick-start/)
 
-```shell
-cd ~/kuma-2.6.1/bin; \
-export PATH=$(pwd):$PATH; \
-cd ~
-```
-
-## How to install Kubectl
-
-- [Official Kubectl Installation Manual](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
-
-```shell
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-```
-
-##### Remove all
-
-```shell
-kubectl delete pods --all -A
-```
-
-## Install Kind
-
-https://kuma.io/docs/2.6.x/quickstart/kubernetes-demo/
-
-```shell
-[ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.22.0/kind-linux-amd64
-[ $(uname -m) = aarch64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.22.0/kind-linux-arm64
-chmod +x ./kind
-sudo mv ./kind /usr/local/bin/kind
-```
-
-## Install Cluster
-
-https://kuma.io/docs/2.6.x/quickstart/kubernetes-demo/
-
-```shell
-kind create cluster --name=mesh-zone
-```
+kubectl and kumactl are essential. kind only allows you to quickly setup [K8S](https://kubernetes.io/) in your machine. It is not a requirement. An alternative could be MicroK8S(see the [MicroK8S](./MicroK8S.md) installation notes) or Minikube.
 
 ## Loading script
+
+https://kuma.io/docs/2.6.x/quickstart/kubernetes-demo/
 
 ```shell
 kind create cluster --name=mesh-zone
@@ -70,6 +34,7 @@ kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
 
 ```shell
 kind delete cluster --name=mesh-zone
+kubectl delete pods --all -A
 ```
 
 ## How to log
