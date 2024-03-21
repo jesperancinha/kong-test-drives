@@ -4,9 +4,9 @@
 
 To run the examples in this folder you can install these 3 commands (see the [Installation](./Installation.md) file) :
 
-1. kubectl - [Documentation](https://kubernetes.io/docs/tasks/tools/#kubectl)
-2. kumactl - [Documentation](https://docs.konghq.com/mesh/latest/production/install-kumactl/)
-3. kind - [Documentation](https://kind.sigs.k8s.io/docs/user/quick-start/)
+1.  kubectl - [Documentation](https://kubernetes.io/docs/tasks/tools/#kubectl)
+2.  kumactl - [Documentation](https://docs.konghq.com/mesh/latest/production/install-kumactl/)
+3.  kind - [Documentation](https://kind.sigs.k8s.io/docs/user/quick-start/)
 
 kubectl and kumactl are essential. kind only allows you to quickly setup [K8S](https://kubernetes.io/) in your machine. It is not a requirement. An alternative could be MicroK8S(see the [MicroK8S](./MicroK8S.md) installation notes) or Minikube.
 
@@ -50,3 +50,7 @@ kubectl logs -f <podname> -n <namespace>
 
 -   https://support.konghq.com/support/s/article/How-to-enable-debug-logging-for-kuma-sidecar-without-using-port-forward
 -   https://spacelift.io/blog/kubectl-logs
+
+## About me
+
+[![GitHub followers](https://img.shields.io/github/followers/jesperancinha.svg?label=Jesperancinha&style=for-the-badge&logo=github&color=grey "GitHub")](https://github.com/jesperancinha)

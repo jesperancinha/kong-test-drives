@@ -11,11 +11,15 @@ bash <(curl -sS https://get.konghq.com/install) -v
 
 #### Konnect
 
-1. Use the default Data Plane Nodes
-2. Add a Gateway Service (at the bottom)
+1.  Use the default Data Plane Nodes
+2.  Add a Gateway Service (at the bottom)
 
-## Resources:
+## Resources
 
-- [Installation Options](https://docs.konghq.com/gateway/latest/install/)
-- [Install Kong Gateway on Ubuntu](https://docs.konghq.com/gateway/3.5.x/install/linux/ubuntu/)
-- 
+-   [Installation Options](https://docs.konghq.com/gateway/latest/install/)
+-   [Install Kong Gateway on Ubuntu](https://docs.konghq.com/gateway/3.5.x/install/linux/ubuntu/)
+-
+
+## About me
+
+[![GitHub followers](https://img.shields.io/github/followers/jesperancinha.svg?label=Jesperancinha&style=for-the-badge&logo=github&color=grey "GitHub")](https://github.com/jesperancinha)
