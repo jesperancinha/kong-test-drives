@@ -18,7 +18,7 @@ bash <(curl -sS https://get.konghq.com/install) -v
 
 -   [Installation Options](https://docs.konghq.com/gateway/latest/install/)
 -   [Install Kong Gateway on Ubuntu](https://docs.konghq.com/gateway/3.5.x/install/linux/ubuntu/)
--
+-   [Introducing Insomnia 9.0 with Pre-request Scripting, Improved Offline Access, API Mocking, and 100+ Improvements](https://konghq.com/blog/product-releases/insomnia-9-0-pre-request-scripting-api-mocking)
 
 ## About me
 
