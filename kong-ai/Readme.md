@@ -10,37 +10,41 @@ curl -Ls https://get.konghq.com/quickstart | bash
 
 ```shell
 curl -i -X POST http://localhost:8001/services \
-  --data name=gpt4all-service \
-  --data url=http://localhost:8080
+ --data "name=gemini-service" \
+ --data "url=https://generativelanguage.googleapis.com"
 ```
 
 ## Create a route
 
 ```shell
-curl -i -X POST http://localhost:8001/services/gpt4all-service/routes \
-  --data name=gpt4all-route \
-  --data paths=/gpt4all
+curl -i -X POST http://localhost:8001/routes \
+ --data "paths[]=/gemini" \
+ --data "service.id=$(curl -s http://localhost:8001/services/gemini-service | jq -r '.id')"
 ```
 
 ## Enable the AI Plugin:
 
 ```shell
-curl -i -X POST http://localhost:8001/services/gpt4all-service/plugins \
-  --data "name=ai-proxy" \
-  --data "config.route_type=llm/v1/chat" \
-  --data "config.model.provider=gemini" \
-  --data "config.auth.allow_override=false" \
-  --data "config.model.name=gpt4all"
+curl -i -X POST http://localhost:8001/services/gemini-service/plugins \
+--data 'name=ai-proxy' \
+--data 'config.auth.param_name=key' \
+--data 'config.auth.param_value=' \
+--data 'config.auth.param_location=query' \
+--data 'config.route_type=llm/v1/chat' \
+--data 'config.model.provider=gemini' \
+--data 'config.model.name=gemini-1.5-flash'
 ```
 
 ## Test
 
 ```shell
-curl -X POST http://localhost:8000/gpt4all \
+curl -X POST http://localhost:8000/gemini \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "gpt4all",
-    "messages": [{"role": "user", "content": "Hello, GPT4All!"}]
+    "messages": [
+    {"role": "user", "content": "What are the colors of the roses"},
+    {"role": "user", "content": "When was the inception year of The Smashing Pumpkins?"}
+    ]
   }'
 ```
 
