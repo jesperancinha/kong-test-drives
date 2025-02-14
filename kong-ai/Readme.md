@@ -1,11 +1,17 @@
 #
 
+## Start Service
+
+```shell
+curl -Ls https://get.konghq.com/quickstart | bash
+```
+
 ## Create Service
 
 ```shell
 curl -i -X POST http://localhost:8001/services \
   --data name=gpt4all-service \
-  --data url=http://localhost:8000/v1/chat/completions
+  --data url=http://localhost:8080
 ```
 
 ## Create a route
@@ -20,11 +26,11 @@ curl -i -X POST http://localhost:8001/services/gpt4all-service/routes \
 
 ```shell
 curl -i -X POST http://localhost:8001/services/gpt4all-service/plugins \
-  --data name=ai \
-  --data config.model=gpt4all \
-  --data config.provider=openai \
-  --data config.api_key=none \
-  --data config.url=http://localhost:8000/v1/chat/completions
+  --data "name=ai-proxy" \
+  --data "config.route_type=llm/v1/chat" \
+  --data "config.model.provider=gemini" \
+  --data "config.auth.allow_override=false" \
+  --data "config.model.name=gpt4all"
 ```
 
 ## Test
