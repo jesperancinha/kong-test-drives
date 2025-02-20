@@ -47,12 +47,11 @@ curl -X POST "http://localhost:8001/services/$(curl -s http://localhost:8001/ser
   "config": {
     "allow_all_conversation_history": true,
     "allow_patterns": [
-      ".*(P|p)ears.*",
-      ".*(P|p)eaches.*"
+      ".*R\\.E\\.M.*"
     ],
     "deny_patterns": [
-      ".*(A|a)pples.*",
-      ".*(O|o)ranges.*"
+      ".*(C|c)ar.*",
+      ".*(J|j)acket.*"
     ]
   }
 }
@@ -77,7 +76,7 @@ curl -X POST http://localhost:8000/gemini \
   -H "Content-Type: application/json" \
   -d '{
     "messages": [
-    {"role": "user", "content": "Does REM ever sings about Pears?"}
+    {"role": "user", "content": "What kind of suits does R.E.M uses to go to their gigs"}
     ]
   }'
 ```
