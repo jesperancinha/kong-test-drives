@@ -28,11 +28,35 @@ curl -i -X POST http://localhost:8001/routes \
 curl -i -X POST http://localhost:8001/services/gemini-service/plugins \
 --data 'name=ai-proxy' \
 --data 'config.auth.param_name=key' \
---data 'config.auth.param_value=' \
+--data 'config.auth.param_value=AIzaSyDAPiCaCQT_yV6jkMeR49MCgVp17eLGHAQ' \
 --data 'config.auth.param_location=query' \
 --data 'config.route_type=llm/v1/chat' \
 --data 'config.model.provider=gemini' \
 --data 'config.model.name=gemini-1.5-flash'
+```
+
+## Enable AI Prompt Guard
+
+```shell
+curl -X POST "http://localhost:8001/services/$(curl -s http://localhost:8001/services/gemini-service | jq -r '.id')/plugins" \
+    --header "accept: application/json" \
+    --header "Content-Type: application/json" \
+    --data '
+    {
+  "name": "ai-prompt-guard",
+  "config": {
+    "allow_all_conversation_history": true,
+    "allow_patterns": [
+      ".*(P|p)ears.*",
+      ".*(P|p)eaches.*"
+    ],
+    "deny_patterns": [
+      ".*(A|a)pples.*",
+      ".*(O|o)ranges.*"
+    ]
+  }
+}
+    '
 ```
 
 ## Test
@@ -44,6 +68,16 @@ curl -X POST http://localhost:8000/gemini \
     "messages": [
     {"role": "user", "content": "What are the colors of the roses"},
     {"role": "user", "content": "When was the inception year of The Smashing Pumpkins?"}
+    ]
+  }'
+```
+
+```shell
+curl -X POST http://localhost:8000/gemini \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+    {"role": "user", "content": "Does REM ever sings about Pears?"}
     ]
   }'
 ```
