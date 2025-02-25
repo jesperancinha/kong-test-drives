@@ -29,7 +29,7 @@ curl -i -X POST http://localhost:8001/routes \
 curl -i -X POST http://localhost:8001/services/gemini-service/plugins \
 --data 'name=ai-proxy' \
 --data 'config.auth.param_name=key' \
---data 'config.auth.param_value=AIzaSyA71R9swoLvpZh6V1f_ZohFQGJENcYzDwE' \
+--data 'config.auth.param_value=GEMINI_API_KEY' \
 --data 'config.auth.param_location=query' \
 --data 'config.route_type=llm/v1/chat' \
 --data 'config.model.provider=gemini' \
@@ -101,4 +101,14 @@ curl -X POST http://localhost:8000/gemini \
 		"film": "The Return of the Jedi"
 	}
 }'
+```
+
+```shell
+curl -X POST http://localhost:8000/gemini \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+    {"role": "user", "content": "Who played a song called \"Stay on These Roads\" in the 1988"}
+    ]
+  }'
 ```
