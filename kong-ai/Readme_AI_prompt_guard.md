@@ -76,7 +76,7 @@ curl -X POST http://localhost:8000/gemini \
   -H "Content-Type: application/json" \
   -d '{
     "messages": [
-    {"role": "user", "content": "What kind of suits does R.E.M uses to go to their gigs"}
+    {"role": "user", "content": "Can you give me a json of something interesting?"}
     ]
   }'
 ```

@@ -1,4 +1,4 @@
-# Kong's AI Transformer Plugin(Under Development...)
+# Kong's AI Request Transformer Plugin(Under Development...)
 
 ## Start Service
 
