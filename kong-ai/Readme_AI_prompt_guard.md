@@ -82,7 +82,7 @@ curl -X POST http://localhost:8000/gemini \
 ```
 
 ```shell
-curl -X POST http://localhost:8000/mistral \
+curl -X POST http://localhost:8000/gemini \
   -H "Content-Type: application/json" \
   -d '{
   "messages": [

@@ -1,4 +1,4 @@
-# Kong's AI Semantic Prompt Guard Configuration
+# Kong's AI Semantic Prompt Guard Configuration (Under Development...)
 
 ## Start Service
 
