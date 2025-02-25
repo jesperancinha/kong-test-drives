@@ -1,4 +1,4 @@
-#
+# Kong's AI Prompt Guard Configuration
 
 ## Start Service
 
@@ -28,7 +28,7 @@ curl -i -X POST http://localhost:8001/routes \
 curl -i -X POST http://localhost:8001/services/gemini-service/plugins \
 --data 'name=ai-proxy' \
 --data 'config.auth.param_name=key' \
---data 'config.auth.param_value=AIzaSyDAPiCaCQT_yV6jkMeR49MCgVp17eLGHAQ' \
+--data 'config.auth.param_value=GEMINI_API_KEY' \
 --data 'config.auth.param_location=query' \
 --data 'config.route_type=llm/v1/chat' \
 --data 'config.model.provider=gemini' \
@@ -78,6 +78,23 @@ curl -X POST http://localhost:8000/gemini \
     "messages": [
     {"role": "user", "content": "What kind of suits does R.E.M uses to go to their gigs"}
     ]
+  }'
+```
+
+```shell
+curl -X POST http://localhost:8000/mistral \
+  -H "Content-Type: application/json" \
+  -d '{
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are an IT specialist."
+    },
+    {
+      "role": "user",
+      "content": "What does Kong do?"
+    }
+  ]
   }'
 ```
 
