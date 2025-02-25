@@ -83,18 +83,6 @@ curl -X DELETE "http://localhost:8001/services/$(curl -s http://localhost:8001/s
 curl -X POST http://localhost:8000/gemini \
   -H "Content-Type: application/json" \
   -d '{
-	"messages": "{template://movie-chat}",
-	"properties": {
-		"type": "action",
-		"year": "1990"
-	}
-}'
-```
-
-```shell
-curl -X POST http://localhost:8000/gemini \
-  -H "Content-Type: application/json" \
-  -d '{
 	"messages": "{template://award-chat}",
 	"properties": {
 		"franchise": "Star Wars",
@@ -107,8 +95,20 @@ curl -X POST http://localhost:8000/gemini \
 curl -X POST http://localhost:8000/gemini \
   -H "Content-Type: application/json" \
   -d '{
+	"messages": "{template://movie-chat}",
+	"properties": {
+		"type": "action",
+		"year": "1990"
+	}
+}'
+```
+
+```shell
+curl -X POST http://localhost:8000/gemini \
+  -H "Content-Type: application/json" \
+  -d '{
     "messages": [
-    {"role": "user", "content": "Who played a song called \"Stay on These Roads\" in the 1988"}
+    {"role": "user", "content": "Who played a song called \"Stay on These Roads\" in 1988"}
     ]
   }'
 ```
