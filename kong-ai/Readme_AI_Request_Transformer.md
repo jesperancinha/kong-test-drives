@@ -63,6 +63,7 @@ curl -X POST "http://localhost:8001/services/$(curl -s http://localhost:8001/ser
      "config": {
        "prompt": "Please transform the given JSON which only has objects with field name and return the same list back where it adds, per object, the field character with the character they played in StarWars",
        "transformation_extract_pattern": "\\\\{((.|\\n)*)\\\\}",
+       "parse_llm_response_json_instructions": true,
        "llm": {
           "route_type": "llm/v1/chat",
           "auth": {
