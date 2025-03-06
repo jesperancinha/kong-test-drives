@@ -1,5 +1,13 @@
 # Kong's AI Semantic Prompt Guard Configuration (Under Development...)
 
+## Config variables
+
+```properties
+CONTROL_PLANE_ID=AAAAA
+SERVICE_ID=AAAAA
+ROUTE_ID=AAAAA
+```
+
 ## Start Service
 
 ```shell
@@ -27,7 +35,7 @@ curl -i -X POST http://localhost:8001/routes \
 
 ```shell
 curl -X POST \
-https://eu.api.konghq.com/v2/control-planes/{control_plane_id}/core-entities/services/{service_id}/plugins \
+"https://eu.api.konghq.com/v2/control-planes/$CONTROL_PLANE_ID/core-entities/services/$SERVICE_ID/plugins" \
     --header "accept: application/json" \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer KONG_API_KEY" \
@@ -54,12 +62,12 @@ https://eu.api.konghq.com/v2/control-planes/{control_plane_id}/core-entities/ser
 ## AI Semantics plugin
 
 ```shell
-docker run --network kong_network --name redis -p 6379:6379 -d redis 
+docker run -it --rm --name redis -p 6379:6379 redis/redis-stack-server
 ```
 
 ```shell
 curl -X POST \
-https://eu.api.konghq.com/v2/control-planes/{control_plane_id}/core-entities/routes/{route_id}/plugins \
+"https://eu.api.konghq.com/v2/control-planes/$CONTROL_PLANE_ID/core-entities/routes/$ROUTE_ID/plugins" \
     --header "accept: application/json" \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer KONG_API_KEY" \
@@ -71,31 +79,16 @@ https://eu.api.konghq.com/v2/control-planes/{control_plane_id}/core-entities/rou
               "allow_prompts": ["Questions about StarWars"],
               "deny_prompts": ["Questions about StarTrek"]
             },
-            "embeddings": {
-                 "auth": {
-                      "header_name": "Authorization",
-                      "header_value": "Bearer MISTRAL_API_KEY"
-                    },
-                 "model": {
-                    "provider": "mistral",
-                    "name": "mistral-embed",
-                    "options": {
-                        "upstream_url": "https://api.mistral.ai/v1/embeddings"
-                      }
-                  }
-            },
-            "vectordb": {
-              "dimensions": 1024,
-              "distance_metric": "cosine",
-              "strategy": "redis",
-              "threshold": 0.1,
-              "redis": {
-                "host": "redis",
-                "port": 6379
+            vectordb:
+              strategy: redis
+              distance_metric: euclidean
+              dimensions: 1024
+              threshold: 0.2
+              redis:
+                host: redis
+                port: 6379
               }
             }
-          }
-        }
     '
 ```
 
@@ -129,3 +122,8 @@ curl -X POST http://localhost:8000/mistral \
 ✅ Security → Protects API keys and ensures data privacy.
 
 ✅ Scalability → Handles high AI traffic with rate limits and load balancing.
+
+## Resources
+
+- https://redis.io/docs/latest/commands/ft.info/
+- https://discuss.konghq.com/t/configurig-mistral-with-kongs-ai-semantic-plugin/13384/5
