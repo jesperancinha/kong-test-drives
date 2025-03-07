@@ -6,6 +6,9 @@
 CONTROL_PLANE_ID=AAAAA
 SERVICE_ID=AAAAA
 ROUTE_ID=AAAAA
+MISTRAL_API_KEY=AAAAA
+KONG_API_KEY=AAAAA
+REDIS_HOST=AAAAA
 ```
 
 ## Start Service
@@ -18,45 +21,45 @@ curl -Ls https://get.konghq.com/quickstart | bash
 
 ```shell
 curl -i -X POST http://localhost:8001/services \
-  --data "name=mistral-service" \
-  --data "url=https://your-upstream-ai-model-endpoint"
+  --data "name=my-service" \
+      --data "url=https://your-upstream-ai-model-endpoint"
 ```
 
 ## Create a route
 
 ```shell
 curl -i -X POST http://localhost:8001/routes \
-  --data "name=ai-route" \
+  --data "name=my-route" \
   --data "paths[]=/mistral" \
-  --data "service.name=mistral-service"
+  --data "service.name=my-service"
 ```
 
 ## Enable the AI Plugin:
 
 ```shell
 curl -X POST \
-"https://eu.api.konghq.com/v2/control-planes/$CONTROL_PLANE_ID/core-entities/services/$SERVICE_ID/plugins" \
+"https://eu.api.konghq.com/v2/control-planes/$CONTROL_PLANE_ID/core-entities/services/$ROUTE_ID/plugins" \
     --header "accept: application/json" \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer KONG_API_KEY" \
-    --data '{
-      "name": "ai-proxy",
-      "config": {
-        "model": {
-          "name": "mistral-medium",
-          "provider": "mistral",
-          "options": {
-            "mistral_format": "openai",
-            "upstream_url": "https://api.mistral.ai/v1/chat/completions"
+    --header "Authorization: Bearer $KONG_API_KEY" \
+    --data "{
+      'name': 'ai-proxy',
+      'config': {
+        'model': {
+          'name': 'mistral-medium',
+          'provider': 'mistral',
+          'options': {
+            'mistral_format': 'openai',
+            'upstream_url': 'https://api.mistral.ai/v1/chat/completions'
           }
         },
-        "auth": {
-          "header_name": "Authorization",
-          "header_value": "Bearer MISTRAL_API_KEY"
+        'auth': {
+          'header_name': 'Authorization',
+          'header_value': 'Bearer $MISTRAL_API_KEY'
         },
-        "route_type": "llm/v1/chat"
+        'route_type': 'llm/v1/chat'
       }
-    }'
+    }"
 ```
 
 ## AI Semantics plugin
@@ -67,29 +70,45 @@ docker run -it --rm --name redis -p 6379:6379 redis/redis-stack-server
 
 ```shell
 curl -X POST \
-"https://eu.api.konghq.com/v2/control-planes/$CONTROL_PLANE_ID/core-entities/routes/$ROUTE_ID/plugins" \
+"https://eu.api.konghq.com/v2/control-planes/$CONTROL_PLANE_ID/core-entities/services/$ROUTE_ID/plugins" \
     --header "accept: application/json" \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer KONG_API_KEY" \
-    --data '{
-          "name": "ai-semantic-prompt-guard",
-          "config": {
-            "rules": {
-              "match_all_conversation_history": true,
-              "allow_prompts": ["Questions about StarWars"],
-              "deny_prompts": ["Questions about StarTrek"]
-            },
-            vectordb:
-              strategy: redis
-              distance_metric: euclidean
-              dimensions: 1024
-              threshold: 0.2
-              redis:
-                host: redis
-                port: 6379
-              }
-            }
-    '
+    --header "Authorization: Bearer $KONG_API_KEY" \
+    --data "
+{
+  'name': 'ai-semantic-prompt-guard',
+  'config': {
+    'embeddings': {
+      'auth': {
+        'header_name': 'Authorization',
+        'header_value': $MISTRAL_API_KEY
+      },
+      'model': {
+        'provider': 'mistral',
+        'name': 'mistral-embed',
+           'options': {
+            'upstream_url': 'https://api.mistral.ai/v1/embeddings'
+          }     }
+    },
+    'rules': {
+      'match_all_conversation_history': true,
+      'allow_prompts': [
+        'Questions about the sun'
+      ]
+    },
+    'vectordb': {
+      'strategy': 'redis',
+      'distance_metric': 'euclidean',
+      'dimensions': 1024,
+      'threshold': 0.2,
+      'redis': {
+        'host': '$REDIS_HOST',
+        'port': 6379
+      }
+    }
+  }
+}
+"
 ```
 
 ## Tests
@@ -99,29 +118,14 @@ curl -X POST \
 curl -X POST http://localhost:8000/mistral \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "mistral-medium",
   "messages": [
     {
-      "role": "system",
-      "content": "You are an IT specialist."
-    },
-    {
-      "role": "user",
-      "content": "What does Kong do?"
+        "role": "system",
+        "content": "tell me the color of the sun"
     }
   ]
   }'
 ```
-
-## Arguments for
-
-✅ Flexibility → Centralized control over AI requests.
-
-✅ Cost Efficiency → Reduces redundant API calls via caching.
-
-✅ Security → Protects API keys and ensures data privacy.
-
-✅ Scalability → Handles high AI traffic with rate limits and load balancing.
 
 ## Resources
 
