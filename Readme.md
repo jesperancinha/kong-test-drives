@@ -1,4 +1,4 @@
-# Kont Test Drives - Startup with KONNECT
+# Kong Test Drives - Startup with KONNECT
 
 ## Installation
 
