@@ -53,7 +53,7 @@ curl -i -X POST http://localhost:8001/services/my-service/plugins \
         },
         "auth": {
           "header_name": "Authorization",
-          "header_value": "Bearer kUpjheWOsuLqpKzNAvT24LuAu48Q6rgr"
+          "header_value": "Bearer MISTRAL_API_KEY"
         },
         "route_type": "llm/v1/chat"
       }
