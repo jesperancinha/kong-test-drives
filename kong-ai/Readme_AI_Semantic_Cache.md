@@ -198,6 +198,19 @@ curl -X POST http://localhost:8000/mistral \
   }'
 ```
 
+```shell
+curl -X POST http://localhost:8000/mistral \
+  -H "Content-Type: application/json" \
+  -d '{
+  "messages": [
+    {
+        "role": "system",
+        "content": "What is the color of earth?"
+    }
+  ]
+  }'
+```
+
 
 ## Final notes
 
