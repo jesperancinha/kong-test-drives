@@ -6,9 +6,7 @@
 CONTROL_PLANE_ID=AAAAA
 SERVICE_ID=AAAAA
 ROUTE_ID=AAAAA
-MISTRAL_API_KEY=AAAAA
 KONG_API_KEY=AAAAA
-REDIS_HOST=AAAAA
 ```
 
 ## Start Service
@@ -42,24 +40,24 @@ curl -X POST \
     --header "accept: application/json" \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer $KONG_API_KEY" \
-    --data "{
-      'name': 'ai-proxy',
-      'config': {
-        'model': {
-          'name': 'mistral-medium',
-          'provider': 'mistral',
-          'options': {
-            'mistral_format': 'openai',
-            'upstream_url': 'https://api.mistral.ai/v1/chat/completions'
+    --data '{
+      "name": "ai-proxy",
+      "config": {
+        "model": {
+          "name": "mistral-medium",
+          "provider": "mistral",
+          "options": {
+            "mistral_format": "openai",
+            "upstream_url": "https://api.mistral.ai/v1/chat/completions"
           }
         },
-        'auth': {
-          'header_name': 'Authorization',
-          'header_value': 'Bearer $MISTRAL_API_KEY'
+        "auth": {
+          "header_name": "Authorization",
+          "header_value": "Bearer {vault://env/MISTRAL_API_KEY}"
         },
-        'route_type': 'llm/v1/chat'
+        "route_type": "llm/v1/chat"
       }
-    }"
+    }'
 ```
 
 ## AI Semantics plugin
@@ -74,41 +72,41 @@ curl -X POST \
     --header "accept: application/json" \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer $KONG_API_KEY" \
-    --data "
+    --data '
 {
-  'name': 'ai-semantic-prompt-guard',
-  'config': {
-    'embeddings': {
-      'auth': {
-        'header_name': 'Authorization',
-        'header_value': $MISTRAL_API_KEY
+  "name": "ai-semantic-prompt-guard",
+  "config": {
+    "embeddings": {
+      "auth": {
+        "header_name": "Authorization",
+        "header_value": "Bearer {vault://env/MISTRAL_API_KEY}"
       },
-      'model': {
-        'provider': 'mistral',
-        'name': 'mistral-embed',
-           'options': {
-            'upstream_url': 'https://api.mistral.ai/v1/embeddings'
+      "model": {
+        "provider": "mistral",
+        "name": "mistral-embed",
+           "options": {
+            "upstream_url": "https://api.mistral.ai/v1/embeddings"
           }     }
     },
-    'rules': {
-      'match_all_conversation_history': true,
-      'allow_prompts': [
-        'Questions about the sun'
+    "rules": {
+      "match_all_conversation_history": true,
+      "allow_prompts": [
+        "Questions about the sun"
       ]
     },
-    'vectordb': {
-      'strategy': 'redis',
-      'distance_metric': 'euclidean',
-      'dimensions': 1024,
-      'threshold': 0.2,
-      'redis': {
-        'host': '$REDIS_HOST',
-        'port': 6379
+    "vectordb": {
+      "strategy": "redis",
+      "distance_metric": "euclidean",
+      "dimensions": 1024,
+      "threshold": 0.2,
+      "redis": {
+        "host": "{vault://env/REDIS_HOST}",
+        "port": 6379
       }
     }
   }
 }
-"
+'
 ```
 
 ## Tests
@@ -126,6 +124,19 @@ curl -X POST http://localhost:8000/mistral \
   ]
   }'
 ```
+
+## Final notes
+
+Make sure to copy/paste these commands to the command line having previously exported these variables with the adjusted value:
+
+```shell
+export CONTROL_PLANE_ID=AAAAA
+export SERVICE_ID=AAAAA
+export ROUTE_ID=AAAAA
+export KONG_API_KEY=AAAAA
+```
+
+Update `REDIS_HOST` and `MISTRAL_API_KEY` in [Kong Konnect]().
 
 ## Resources
 
