@@ -36,7 +36,7 @@ curl -i -X POST http://localhost:8001/routes \
 
 ```shell
 curl -X POST \
-"https://eu.api.konghq.com/v2/control-planes/$CONTROL_PLANE_ID/core-entities/services/$ROUTE_ID/plugins" \
+"https://eu.api.konghq.com/v2/control-planes/$CONTROL_PLANE_ID/core-entities/routes/$ROUTE_ID/plugins" \
     --header "accept: application/json" \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer $KONG_API_KEY" \
@@ -53,7 +53,7 @@ curl -X POST \
         },
         "auth": {
           "header_name": "Authorization",
-          "header_value": "Bearer {vault://env/MISTRAL_API_KEY}"
+          "header_value": "Bearer '$MISTRAL_API_KEY'"
         },
         "route_type": "llm/v1/chat"
       }
@@ -68,7 +68,7 @@ docker run -it --rm --name redis -p 6379:6379 redis/redis-stack-server
 
 ```shell
 curl -X POST \
-"https://eu.api.konghq.com/v2/control-planes/$CONTROL_PLANE_ID/core-entities/services/$ROUTE_ID/plugins" \
+"https://eu.api.konghq.com/v2/control-planes/$CONTROL_PLANE_ID/core-entities/routes/$ROUTE_ID/plugins" \
     --header "accept: application/json" \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer $KONG_API_KEY" \
@@ -79,7 +79,7 @@ curl -X POST \
     "embeddings": {
       "auth": {
         "header_name": "Authorization",
-        "header_value": "Bearer {vault://env/MISTRAL_API_KEY}"
+        "header_value": "Bearer '$MISTRAL_API_KEY'"
       },
       "model": {
         "provider": "mistral",
@@ -100,7 +100,7 @@ curl -X POST \
       "dimensions": 1024,
       "threshold": 0.2,
       "redis": {
-        "host": "{vault://env/REDIS_HOST}",
+        "host": "'$REDIS_HOST'",
         "port": 6379
       }
     }
@@ -134,9 +134,9 @@ export CONTROL_PLANE_ID=AAAAA
 export SERVICE_ID=AAAAA
 export ROUTE_ID=AAAAA
 export KONG_API_KEY=AAAAA
+export MISTRAL_API_KEY=AAAAA
+export REDIS_HOST=AAAAA
 ```
-
-Update `REDIS_HOST` and `MISTRAL_API_KEY` in [Kong Konnect]().
 
 ## Resources
 
