@@ -84,9 +84,10 @@ curl -X POST \
       "model": {
         "provider": "mistral",
         "name": "mistral-embed",
-           "options": {
-            "upstream_url": "https://api.mistral.ai/v1/embeddings"
-          }     }
+        "options": {
+          "upstream_url": "https://api.mistral.ai/v1/embeddings"
+        }
+      }
     },
     "rules": {
       "match_all_conversation_history": true,
@@ -95,10 +96,10 @@ curl -X POST \
       ]
     },
     "vectordb": {
-      "strategy": "redis",
-      "distance_metric": "euclidean",
       "dimensions": 1024,
-      "threshold": 0.2,
+      "distance_metric": "cosine",
+      "strategy": "redis",
+      "threshold": 0.1,
       "redis": {
         "host": "'$REDIS_HOST'",
         "port": 6379
