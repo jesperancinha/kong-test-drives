@@ -20,7 +20,7 @@ curl -Ls https://get.konghq.com/quickstart | bash
 ```shell
 curl -i -X POST http://localhost:8001/services \
   --data "name=my-service" \
-      --data "url=https://your-upstream-ai-model-endpoint"
+      --data "url=http://localhost:32000"
 ```
 
 ## Create a route
