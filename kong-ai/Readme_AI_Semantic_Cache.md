@@ -90,10 +90,10 @@ curl -X POST \
       }
     },
     "vectordb": {
-      "dimensions": 1024,
-      "distance_metric": "cosine",
       "strategy": "redis",
-      "threshold": 0.1,
+      "distance_metric": "euclidean",
+      "dimensions": 1024,
+      "threshold": 0.2,
       "redis": {
         "host": "'$REDIS_HOST'",
         "port": 6379
@@ -122,6 +122,85 @@ curl -X POST http://localhost:8000/mistral \
   ]
   }'
 ```
+
+
+```shell
+curl -X POST http://localhost:8000/mistral \
+  -H "Content-Type: application/json" \
+  -d '{
+  "messages": [
+    {
+        "role": "system",
+        "content": "What color best describes the color of the sun?"
+    }
+  ]
+  }'
+```
+
+```shell
+curl -X POST http://localhost:8000/mistral \
+  -H "Content-Type: application/json" \
+  -d '{
+  "messages": [
+    {
+        "role": "system",
+        "content": "Is the sun white yellow?"
+    }
+  ]
+  }'
+```
+
+```shell
+curl -X POST http://localhost:8000/mistral \
+  -H "Content-Type: application/json" \
+  -d '{
+  "messages": [
+    {
+        "role": "system",
+        "content": "What is the color of Mars"
+    }
+  ]
+  }'
+```
+
+```shell
+curl -X POST http://localhost:8000/mistral \
+  -H "Content-Type: application/json" \
+  -d '{
+  "messages": [
+    {
+        "role": "system",
+        "content": "What is the color of a car"
+    }
+  ]
+  }'
+```
+
+```shell
+curl -X POST http://localhost:8000/mistral \
+  -H "Content-Type: application/json" \
+  -d '{
+  "messages": [
+    {
+        "role": "system",
+        "content": "What is the color of a red rose"
+    }
+  ]
+  }'
+```
+```shell
+curl -X POST http://localhost:8000/mistral \
+  -H "Content-Type: application/json" \
+  -d '{
+  "messages": [
+    {
+        "role": "system",
+        "content": "Is red rose colored red?"
+    }
+  ]
+  }'
+```
+
 
 ## Final notes
 
