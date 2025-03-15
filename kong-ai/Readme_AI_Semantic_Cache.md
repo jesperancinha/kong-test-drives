@@ -110,9 +110,6 @@ curl -X POST \
 ```shell
 curl -X POST http://localhost:8000/mistral \
   -H "Content-Type: application/json" \
-      --header "accept: application/json" \
-    --header "Content-Type: application/json" \
-    --header "Authorization: Bearer $MISTRAL_API_KEY" \
   -d '{
   "messages": [
     {
