@@ -1,0 +1,27 @@
+@startuml
+
+autonumber
+
+actor Client
+participant Kong as "Kong Gateway"
+participant "AI Semantic Cache Plugin" as Plugin
+participant Redis
+participant "Backend API" as API
+
+Client -> Kong: Sends API request
+Kong -> Plugin: Check cache
+Plugin -> Redis: Query semantic cache
+
+alt Cache hit
+    Redis -> Plugin: Return cached response
+    Plugin -> Kong: Send cached response
+    Kong -> Client: Return response
+else Cache miss
+    Kong -> API: Forward request
+    API -> Kong: Return response
+    Kong -> Plugin: Pass response for caching
+    Plugin -> Redis: Store response with semantic embeddings
+    Kong -> Client: Return API response
+end
+
+@enduml
