@@ -2,11 +2,11 @@
 
 ## Project structure
 
-- [auth-konnect](auth-konnect) - Info on Auth and how to connect to Kong-Konnect
-- [grpc](grpc) - Info on gRPC
-- [hello-world](hello-world) - A small Hello World app to try GET requests
-- [kong-ai](kong-ai) - Files and example configurations for Kong's AI plugins
-- [kuma](kuma) - Kuma Meshes Documentation files and examples
+-   [auth-konnect](auth-konnect) - Info on Auth and how to connect to Kong-Konnect
+-   [grpc](grpc) - Info on gRPC
+-   [hello-world](hello-world) - A small Hello World app to try GET requests
+-   [kong-ai](kong-ai) - Files and example configurations for Kong's AI plugins
+-   [kuma](kuma) - Kuma Meshes Documentation files and examples
 
 ## Installation
 
